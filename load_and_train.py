@@ -12,11 +12,12 @@ def load_data():
     from sklearn.model_selection import train_test_split
     xtr, xte, ytr, yte = train_test_split(X, Y, test_size = 0.2, random_state = 1)
     return xtr, ytr, xte, yte
+
 x_train, y_train, x_test, y_test = load_data()
+
 from sklearn.preprocessing import OneHotEncoder
 y_train = OneHotEncoder().fit_transform(y_train)
 y_test = OneHotEncoder().fit_transform(y_test)
-
 
 model = Sequential()
 model.add(Dense(2000, input_shape = (1024,), activation = 'relu'))
@@ -34,6 +35,9 @@ model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = [
 filepath="weights-improvement-{epoch:02d}.hdf5"
 checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
 callbacks_list = [checkpoint]
+
+model.load_weights('weights-improvement-02.hdf5')
+
 model.fit(x_train, y_train, validation_split = 0.2, callbacks = callbacks_list, epochs = 100, batch_size = 10)
 
 score = model.evaluate(x_test, y_test)
