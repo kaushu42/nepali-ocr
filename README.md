@@ -9,6 +9,7 @@ Weights are included in the weights folder.
 
 'model.h5' is the final trained model file. Load it in keras using
   > keras.models.load_model('./weights/model.h5')
+
 Intermediate training weights are also preset in the folder.
 
 
